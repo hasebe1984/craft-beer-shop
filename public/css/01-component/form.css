@@ -1,0 +1,73 @@
+/*
+component > form
+------------------------------
+*/
+/* =========================================
+   カスタムチェックボックスのスタイル
+   ========================================= */
+
+/* 1. ラベルのスタイル調整 */
+/* チェックボックスの配置基準とし、クリック可能であることを示す */
+.c-form-item_row label {
+    position: relative;
+    padding-left: 32px; /* 左側にカスタムチェックボックス用の隙間を作る */
+    cursor: pointer;
+    display: inline-block;
+    line-height: 24px; /* テキストの高さをチェックボックスと合わせる */
+    user-select: none; /* テキスト選択を防ぐ */
+}
+
+/* 2. 標準のチェックボックスを視覚的に隠す */
+/* labelで操作できるようにinput自体は残すが、見えなくする */
+.c-form-checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* 3. カスタムチェックボックスの枠（未チェック時）を作成 */
+/* labelの直前に四角い要素を擬似的に作る */
+.c-form-item_row label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 24px;  /* 幅 */
+    height: 24px; /* 高さ */
+    border: 2px solid #ccc; /* 通常時の枠線の色（薄いグレー） */
+    background-color: #fff; /* 背景色（白） */
+    box-sizing: border-box;
+    transition: all 0.3s ease; /* 色の変化を滑らかに */
+}
+
+/* 4. チェック状態（:checked）のスタイル */
+/* inputがチェックされた直後のlabelの::before（枠）を黒くする */
+.c-form-checkbox:checked + label::before {
+    border-color: #000;     /* 枠線を黒に */
+    background-color: #000; /* 背景色を黒に */
+}
+
+/* 5. チェックマーク（✓）を作成 */
+/* labelの直後に白いチェックマークの形を擬似的に作る */
+.c-form-item_row label::after {
+    content: '';
+    position: absolute;
+    /* チェックマークの位置とサイズ調整（微調整が必要な場合があります） */
+    left: 9px;
+    top: 5px;
+    width: 6px;
+    height: 12px;
+    border: solid #fff; /* 白い線 */
+    border-width: 0 2px 2px 0; /* 右と下の線だけ表示してL字にする */
+    transform: rotate(45deg); /* 45度回転させてチェックマークの形にする */
+    opacity: 0; /* 最初は隠しておく */
+    transition: all 0.3s ease;
+}
+
+/* 6. チェック時にチェックマークを表示 */
+/* inputがチェックされた直後のlabelの::after（チェックマーク）を表示する */
+.c-form-checkbox:checked + label::after {
+    opacity: 1;
+}

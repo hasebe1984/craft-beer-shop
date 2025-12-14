@@ -63,17 +63,29 @@ layout > header
 
 .header-icon {
     position: relative;
+    display: inline-block; /* または inline-flex */
 }
 
 .header-icon svg {
     width: 25px;
+    display: block; /* 画像の下に余白ができるのを防ぐ */
 }
 
 .header-icon span {
     position: absolute;
-    top: 23%;
-    left: 47%;
-    font-size: clamp(8px, 1.5vw, 12px);
+    /* 親要素の中心に配置するための基準点 */
+    top: 50%;  /* カートの「カゴ」部分は少し下にあるため、50%より少し下げて調整 */
+    left: 55%; /* 水平方向はど真ん中 */
+    
+    /* ★ここが重要：自身の大きさの半分だけ左上に戻すことで、完全な中心にする */
+    transform: translate(-50%, -50%);
+    
+    /* その他の見た目の調整 */
+    font-size: clamp(8px, 1.5vw, 10px); /* カートの中に入れるなら少し小さめが良いかも */
+    font-weight: bold;
+    color: currentColor; /* svgの色と合わせる場合。黒なら black でOK */
+    line-height: 1;      /* 上下の余計な隙間をなくす */
+    pointer-events: none; /* 数字の上にマウスが来てもクリックを透過させる */
 }
 
 @media (min-width: 768px) {

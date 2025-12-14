@@ -1,0 +1,177 @@
+/*
+component > nav
+------------------------------
+*/
+
+.c-nav {
+    outline: var(--outline-base);
+    outline-offset: var(--outline-offset-base);
+}
+
+.c-nav_hidden {
+    display: none;
+}
+
+
+.c-nav-title {
+    font-size: clamp(14px, 2vw, 18px);
+    outline: var(--outline-base);
+    outline-offset: var(--outline-offset-base);
+    padding: 2vw;
+    text-align: center;
+}
+
+.c-nav-list {
+    padding: 2vw;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: clamp(10px, 1.5vw, 12px);
+}
+
+.c-nav-checkbox {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+}
+
+.c-nav-checkbox input {
+    width: 10px;
+    height: 10px;
+    border: 1px solid var(--border-color-base);
+}
+
+@media (min-width: 768px) {
+    .c-nav_hidden {
+        display: block;
+    }
+}
+
+/* --- ここから下を追記してください --- */
+
+/* 1. ブラウザ標準のチェックボックスを完全に隠す */
+.c-nav-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+/* 2. ラベルの配置（横並び） */
+.c-nav-checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 10px;        /* 正方形と文字の間隔 */
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* 3. 未チェック時の正方形（透明で枠線あり） */
+.c-nav-checkbox label::before {
+    content: '';
+    display: inline-block;
+    width: 16px;      /* 正方形の幅 */
+    height: 16px;     /* 正方形の高さ */
+    border: 1px solid #333; /* 黒い枠線 */
+    background-color: transparent; /* 透明 */
+    transition: background-color 0.2s; /* 色が変わるアニメーション */
+    flex-shrink: 0;   /* 縮まないようにする */
+}
+
+/* 4. チェックされた時の正方形（真っ黒になる） */
+.c-nav-checkbox input[type="checkbox"]:checked + label::before {
+    background-color: #000; /* 背景を黒に */
+    border-color: #000;
+}
+
+/* -------------------------------------------
+   Laravelページネーションの修正スタイル
+------------------------------------------- */
+
+/* 1. ページネーション全体を中央寄せにする */
+nav[role="navigation"] > div {
+    justify-content: center;
+    margin: 12px 0 ;
+}
+
+/* 2. 巨大化した矢印（< >）を小さくする */
+nav[role="navigation"] svg {
+    width: 20px !important;  /* 強制的に小さくする */
+    height: 20px !important;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* 3. もしレイアウトが崩れて縦並びになっていたら横並びにする */
+nav[role="navigation"] > div:last-child > div:last-child {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* 4. ボタンの見た目を整える（オプション） */
+nav[role="navigation"] a,
+nav[role="navigation"] span[aria-current="page"] {
+    margin: 0 2px;
+    color: #374151;
+}
+
+/* 現在のページ（黒くする） */
+nav[role="navigation"] span[aria-current="page"] {
+    color: #000;
+}
+
+/* -------------------------------------------
+   不要なテキストを消す設定
+------------------------------------------- */
+
+/* 1. スマホ用の「Previous / Next」文字ボタンを消す */
+nav[role="navigation"] > div:first-child {
+    display: none;
+}
+
+/* 2. 「Showing 1 to 5...」という集計テキストを消す */
+nav[role="navigation"] p {
+    display: none;
+}
+
+/* 3. これで数字と矢印だけが残るので、レイアウトを整える */
+nav[role="navigation"] > div:last-child {
+    display: flex;
+    justify-content: center; /* 中央寄せ */
+    width: 100%;
+}
+
+.cart-notification {
+    position: fixed;
+    top: 70px;
+    right: 0;
+    z-index: 9999;
+
+    /* 見た目の装飾 */
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #333;
+    padding: 1.2rem 2.5rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #000;
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.05em;
+    backdrop-filter: blur(5px);
+    
+    /* 初期状態（見えない） */
+    opacity: 0;
+    transform: translateX(30px);
+    filter: blur(5px);
+    visibility: hidden;
+    
+    /* アニメーション設定 */
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* 表示状態（JSでこのクラスがつくと見える） */
+.cart-notification.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+    visibility: visible;
+}

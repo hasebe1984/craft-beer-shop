@@ -4,43 +4,46 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>記事 | タキシード猫</title>
-    <meta name="description" content="タキシード猫はIPA専門のセレクトショップです。" />
+    <title>@yield('title', 'タキシード猫') | IPA専門セレクトショップ</title>    <meta name="description" content="タキシード猫はIPA専門のセレクトショップです。" />
     <meta name="format-detection" content="telephone=no" />
 
-    <!-- favicon -->
-    <link rel="shortcut icon" href="img/favicon.png" />
-    <link rel="apple-touch-icon" href="img/favicon.png" />
+    <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}" />
+    <link rel="apple-touch-icon" href="{{ asset('img/favicon.png') }}" />
 
-    <!-- googlefonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Oswald:wght@200..700&display=swap"
         rel="stylesheet" />
 
-    <!-- css -->
-    <link rel="stylesheet" href="css/base/reset.css" />
-    <link rel="stylesheet" href="css/base/variables.css" />
-    <link rel="stylesheet" href="css/base/base.css" />
+ {{-- ▼▼▼ cssフォルダ内の全ファイル（サブフォルダ含む）を自動読み込み ▼▼▼ --}}
+ @php
+ // Laravelの機能を使って、サブフォルダの中まで全ファイルを検索
+ $files = \Illuminate\Support\Facades\File::allFiles(public_path('css'));
 
-    <link rel="stylesheet" href="css/layout/header.css" />
-    <link rel="stylesheet" href="css/layout/footer.css" />
-    <link rel="stylesheet" href="css/layout/section.css" />
+ // CSSファイルだけをリストアップするための配列
+ $cssFiles = [];
 
-    <link rel="stylesheet" href="css/component/button.css" />
-    <link rel="stylesheet" href="css/component/title.css" />
-    <link rel="stylesheet" href="css/component/card.css" />
-    <link rel="stylesheet" href="css/component/nav.css" />
-    <link rel="stylesheet" href="css/component/space.css" />
+ foreach ($files as $file) {
+     // 拡張子が 'css' のファイルだけを対象にする
+     if ($file->getExtension() === 'css') {
+         // ファイルのパス（例: 00-base/reset.css）を取得して保存
+         $cssFiles[] = $file->getRelativePathname();
+     }
+ }
 
-    <link rel="stylesheet" href="css/pages/news/news-single.css">
+ // ファイル名・フォルダ名順に並び替え（00-base, 01-component...の順に読み込むため）
+ sort($cssFiles);
+@endphp
 
-    <link rel="stylesheet" href="css/animation/animation.css" />
+@foreach ($cssFiles as $cssFile)
+ <link rel="stylesheet" href="{{ asset('css/' . $cssFile) }}">
+@endforeach
+{{-- ▲▲▲ 自動読み込みここまで ▲▲▲ --}}
+
 </head>
 
 <body id="top">
-    <!-- header -->
     <header class="header">
         <div class="header-banner">
             <p class="header-banner-text">6,000円以上のご注文で送料無料</p>
@@ -55,7 +58,7 @@
                 <nav class="header-humburger-nav overlay-menu" id="menuOverlay">
                     <ul class="c-button-rotate">
                         <li class="c-button-rotate-outer">
-                            <a href="index.html#concept" class="c-button-rotate-inner c-button-rotate-inner_large">
+                            <a href="{{ url('/') }}#concept" class="c-button-rotate-inner c-button-rotate-inner_large">
                                 <div class="c-button-rotate-text c-button-rotate-text_top c-button-rotate-text_large">
                                     concept
                                 </div>
@@ -66,7 +69,7 @@
                             </a>
                         </li>
                         <li class="c-button-rotate-outer">
-                            <a href="product.html" class="c-button-rotate-inner c-button-rotate-inner_large">
+                            <a href="{{ url('/products') }}" class="c-button-rotate-inner c-button-rotate-inner_large">
                                 <div class="c-button-rotate-text c-button-rotate-text_top c-button-rotate-text_large">
                                     products
                                 </div>
@@ -77,7 +80,7 @@
                             </a>
                         </li>
                         <li class="c-button-rotate-outer">
-                            <a href="news.html" class="c-button-rotate-inner c-button-rotate-inner_large">
+                            <a href="{{ url('/news') }}" class="c-button-rotate-inner c-button-rotate-inner_large">
                                 <div class="c-button-rotate-text c-button-rotate-text_top c-button-rotate-text_large">
                                     news
                                 </div>
@@ -90,19 +93,19 @@
                     </ul>
                     <ul class="c-button-rotate">
                         <li class="c-button-rotate-outer">
-                            <a href="contact.html" class="c-button-rotate-inner">
+                            <a href="{{ url('/contact') }}" class="c-button-rotate-inner">
                                 <div class="c-button-rotate-text c-button-rotate-text_top">お問い合わせ</div>
                                 <div class="c-button-rotate-text c-button-rotate-text_bottom">お問い合わせ</div>
                             </a>
                         </li>
                         <li class="c-button-rotate-outer">
-                            <a href="privacy.html" class="c-button-rotate-inner">
+                            <a href="{{ url('/privacy') }}" class="c-button-rotate-inner">
                                 <div class="c-button-rotate-text c-button-rotate-text_top">プライバシーポリシー</div>
                                 <div class="c-button-rotate-text c-button-rotate-text_bottom">プライバシーポリシー</div>
                             </a>
                         </li>
                         <li class="c-button-rotate-outer">
-                            <a href="tokushoho.html" class="c-button-rotate-inner">
+                            <a href="{{ url('/tokushoho') }}" class="c-button-rotate-inner">
                                 <div class="c-button-rotate-text c-button-rotate-text_top">特商法に基づく表記</div>
                                 <div class="c-button-rotate-text c-button-rotate-text_bottom">特商法に基づく表記</div>
                             </a>
@@ -113,19 +116,19 @@
                 <nav class="header-nav">
                     <ul class="c-button-rotate">
                         <li class="c-button-rotate-outer">
-                            <a href="index.html#concept" class="c-button-rotate-inner">
+                            <a href="{{ url('/') }}#concept" class="c-button-rotate-inner">
                                 <div class="c-button-rotate-text c-button-rotate-text_top">concept</div>
                                 <div class="c-button-rotate-text c-button-rotate-text_bottom">concept</div>
                             </a>
                         </li>
                         <li class="c-button-rotate-outer">
-                            <a href="product.html" class="c-button-rotate-inner">
+                            <a href="{{ url('/products') }}" class="c-button-rotate-inner">
                                 <div class="c-button-rotate-text c-button-rotate-text_top">products</div>
                                 <div class="c-button-rotate-text c-button-rotate-text_bottom">products</div>
                             </a>
                         </li>
                         <li class="c-button-rotate-outer">
-                            <a href="news.html" class="c-button-rotate-inner">
+                            <a href="{{ url('/news') }}" class="c-button-rotate-inner">
                                 <div class="c-button-rotate-text c-button-rotate-text_top">news</div>
                                 <div class="c-button-rotate-text c-button-rotate-text_bottom">news</div>
                             </a>
@@ -134,12 +137,12 @@
                 </nav>
             </div>
 
-            <a class="header-logo" href="index.html#top">
-                <img src="img/logo/logo1.png" alt="タキシード猫" width="1024" height="498" />
+            <a class="header-logo" href="{{ url('/') }}#top">
+                <img src="{{ asset('img/logo/logo1.png') }}" alt="タキシード猫" width="1024" height="498" />
             </a>
             <ul class="header-list">
                 <li>
-                    <a href="rogin.html" class="c-button-rotate-outer">
+                    <a href="{{ url('/login') }}" class="c-button-rotate-outer">
                         <div class="c-button-rotate-inner c-button-rotate-inner_orange">
                             <div class="c-button-rotate-text c-button-rotate-text_top">ログイン</div>
                             <div class="c-button-rotate-text c-button-rotate-text_bottom">ログイン</div>
@@ -147,7 +150,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="cart.html" class="header-icon">
+                    <a href="{{ url('/cart') }}" class="header-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
                             <rect width="256" height="256" fill="none" />
                             <circle cx="88" cy="216" r="16" />
@@ -157,11 +160,9 @@
                                 fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 stroke-width="16" />
                         </svg>
-                        <span>1</span>
+                        <span>{{ array_sum(array_column(session('cart', []), 'quantity')) }}</span>                    
                     </a>
                 </li>
             </ul>
         </div>
     </header>
-    <!-- header -->
-    <main>
